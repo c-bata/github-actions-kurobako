@@ -35,6 +35,12 @@ def main():
 
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
+
+    # Delete previous comments
+    for c in issue.get_comments():
+        if c.user.login == 'github-actions[bot]':
+            c.delete()
+
     issue.create_comment(kurobako_report)
 
 
