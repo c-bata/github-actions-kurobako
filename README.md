@@ -1,6 +1,6 @@
 # github-actions-kurobako
 
-GitHub Action to report kurobako benchmark results on the PR.
+GitHub Action to report [kurobako](https://github.com/sile/kurobako) benchmark results on the PR.
 
 ## Inputs
 
@@ -21,3 +21,8 @@ uses: c-bata/github-actions-kurobako@master
 with:
   report-json-path: '/home/runner/kurobako-report.json'
 ```
+
+## License
+
+This software is licensed under the MIT license, see [LICENSE](./LICENSE) for more information.
+
