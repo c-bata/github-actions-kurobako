@@ -39,9 +39,10 @@ def main():
     # Delete previous comments
     for c in issue.get_comments():
         if c.user.login == 'github-actions[bot]':
-            c.delete()
-
-    issue.create_comment(kurobako_report)
+            c.edit(kurobako_report)
+            break
+    else:
+        issue.create_comment(kurobako_report)
 
 
 if __name__ == '__main__':
