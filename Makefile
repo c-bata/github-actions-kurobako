@@ -9,7 +9,7 @@ docker-build: ## Build docker image.
 
 .PHONY: docker-sh
 docker-sh: ## Open a bash shell in container for debugging.
-	docker run -it --rm --entrypoint "sh" $(IMAGE_NAME)
+	docker run -it --rm -v `PWD`/volume:/volume --entrypoint "sh" $(IMAGE_NAME)
 
 .PHONY: help
 help: ## Show help text

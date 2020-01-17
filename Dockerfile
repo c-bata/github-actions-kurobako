@@ -1,5 +1,4 @@
-# Container image that runs your code
-FROM alpine:3.10
+FROM python:3.7.6-alpine3.11
 
 RUN apk add --update gnuplot \
         fontconfig \
@@ -14,8 +13,8 @@ RUN curl -L https://github.com/sile/kurobako/releases/download/0.1.4/kurobako-0.
     chmod +x ./kurobako && \
     ./kurobako -h
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
+RUN pip install requests
+
 COPY entrypoint.sh /entrypoint.sh
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
