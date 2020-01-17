@@ -16,5 +16,6 @@ RUN curl -L https://github.com/sile/kurobako/releases/download/0.1.4/kurobako-0.
 RUN pip install PyGithub
 
 COPY entrypoint.sh /entrypoint.sh
+COPY report.py /report.py
 
 ENTRYPOINT ["/entrypoint.sh"]

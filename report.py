@@ -20,6 +20,9 @@ def main():
     json_path = sys.argv[1]
     event = get_webhook_event()
     pull_number = event.get('number')
+    print("Pull Request:", pull_number)
+    repository = event.get('repository').get("full_name")
+    print("Repository:", pull_number)
 
     kurobako_report = subprocess.check_output([
         "sh", "-c", f"cat {json_path} | {KUROBAKO} report",
@@ -31,7 +34,7 @@ def main():
     # ])
 
     client = Github(ACCESS_TOKEN)
-    issue = client.get_repo("c-bata/goptuna").get_issue(pull_number)
+    issue = client.get_repo(repository).get_issue(pull_number)
     issue.create_comment(kurobako_report)
 
 
