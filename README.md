@@ -1,7 +1,9 @@
 # github-actions-kurobako
 
-GitHub Action to report [kurobako](https://github.com/sile/kurobako) benchmark results on the PR.
+GitHub Action to generate [kurobako](https://github.com/sile/kurobako) report and comment it to the pull request.
 See [github-actions-kurobako/plot](./plot) action to generate a plot image.
+
+<img src="https://user-images.githubusercontent.com/5564044/72664009-33d0eb80-3a3c-11ea-8ada-0b6ac7522cd7.png" alt="image" align="right" width="50%">
 
 ## Inputs
 
@@ -15,7 +17,8 @@ See [github-actions-kurobako/plot](./plot) action to generate a plot image.
 
 ## Outputs
 
-Comment to the pull request or edit if previous comment exists.
+There is no output values.
+This action just comments to the pull request or edit if previous comment exists.
 
 ## Example usage
 
@@ -23,10 +26,9 @@ Comment to the pull request or edit if previous comment exists.
 uses: c-bata/github-actions-kurobako@master
 with:
   report-md-path: './kurobako-report.md'
-  public-image-url: 'https://storage.googleapis.com/kurobako-reports/foo.png'
+  public-image-url: 'https://example.com/public-image-url.png'
 ```
 
 ## License
 
 This software is licensed under the MIT license, see [LICENSE](./LICENSE) for more information.
-
