@@ -25,6 +25,27 @@ def get_kurobako_image_path():
     raise Exception('kurobako image not found.')
 
 
+def generate_report(kurobako_report, public_image_url):
+    metadata, detail = kurobako_report[len('# Benchmark Result Report\n\n'):].split('## Table of Contents')[:2]
+    body = f"""
+# Kurobako Benchmark
+
+{f'![plot curve image]({public_image_url})' if public_image_url else ''}
+
+{metadata}
+
+<details>
+<summary>See details of benchmark results</summary>
+
+## Table of Contents
+
+{detail}
+
+</details>
+"""[1:]
+    return body
+
+
 def main():
     print(sys.argv)
     json_path = sys.argv[1]
@@ -49,22 +70,17 @@ def main():
 
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
-
-    body = f"""
-# Kurobako
-
-{f'![plot curve image]({public_image_url})' if public_image_url else ''}
-
-<details>
-{kurobako_report}
-</details>
-"""[1:]
+    body = generate_report(kurobako_report, public_image_url)
 
     # Comment to the pull request or edit if previous comment exists.
     for c in issue.get_comments():
-        if c.user.login == 'github-actions[bot]':
-            c.edit(body)
-            break
+        if not c.user.login.startswith('github-actions'):
+            continue
+        if not c.body.startswith('# Kurobako Benchmark'):
+            continue
+
+        c.edit(body)
+        break
     else:
         issue.create_comment(body)
 
