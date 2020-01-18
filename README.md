@@ -15,12 +15,17 @@ GitHub Action to report [kurobako](https://github.com/sile/kurobako) benchmark r
 A file path to the generated image of kurobako.
 You need to upload this on GCS.
 
+### `public-image-url`
+
+URL to kurobako plot curve image which you upload later.
+
 ## Example usage
 
 ```yaml
 uses: c-bata/github-actions-kurobako@master
 with:
   report-json-path: '/home/runner/kurobako-report.json'
+  public-image-url: 'https://storage.googleapis.com/kurobako-reports/foo.png'
 ```
 
 ## License

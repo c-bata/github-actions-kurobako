@@ -2,4 +2,4 @@
 
 set -e
 
-python /report.py $1
+python /report.py $@

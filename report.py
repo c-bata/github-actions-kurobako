@@ -26,7 +26,10 @@ def get_kurobako_image_path():
 
 
 def main():
+    print(sys.argv)
     json_path = sys.argv[1]
+    public_image_url = sys.argv[2] if len(sys.argv) > 2 else ''
+
     event = get_webhook_event()
     pull_number = event.get('number')
     print("Pull Request:", pull_number)
@@ -47,13 +50,23 @@ def main():
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
 
+    body = f"""
+# Kurobako
+
+{f'![plot curve image]({public_image_url})' if public_image_url else ''}
+
+<details>
+{kurobako_report}
+</details>
+"""[1:]
+
     # Comment to the pull request or edit if previous comment exists.
     for c in issue.get_comments():
         if c.user.login == 'github-actions[bot]':
-            c.edit(kurobako_report)
+            c.edit(body)
             break
     else:
-        issue.create_comment(kurobako_report)
+        issue.create_comment(body)
 
 
 if __name__ == '__main__':
