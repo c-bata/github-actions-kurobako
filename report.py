@@ -21,7 +21,7 @@ def get_kurobako_image_path():
     # It seems kurobako accepts multiple studies, so it seems to need more discussions.
     for filepath in os.listdir(OUTPUT_DIR):
         if filepath.endswith('.png'):
-            return os.path.abspath(filepath)
+            return os.path.join(OUTPUT_DIR, filepath)
     raise Exception('kurobako image not found.')
 
 
