@@ -47,7 +47,7 @@ def main():
     print("Repository:", pull_number)
 
     with open(markdown_report_path, 'r') as f:
-        kurobako_report = "\n".join(f.readlines())
+        kurobako_report = f.read()
 
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
