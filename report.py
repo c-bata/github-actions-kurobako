@@ -1,12 +1,9 @@
 import json
 import os
 import sys
-import subprocess
 
 from github import Github
 
-KUROBAKO = os.getenv('KUROBAKO', './kurobako')
-OUTPUT_DIR = os.getenv('OUTPUT_DIR', './output/')
 ACCESS_TOKEN = os.getenv('GITHUB_TOKEN')
 
 
@@ -16,21 +13,13 @@ def get_webhook_event():
         return json.load(f)
 
 
-def get_kurobako_image_path():
-    # TODO(c-bata): specify output filename in the option at kurobako plot curve command.
-    # It seems kurobako accepts multiple studies, so it seems to need more discussions.
-    for filepath in os.listdir(OUTPUT_DIR):
-        if filepath.endswith('.png'):
-            return os.path.join(OUTPUT_DIR, filepath)
-    raise Exception('kurobako image not found.')
-
-
 def generate_report(kurobako_report, public_image_url):
-    metadata, detail = kurobako_report[len('# Benchmark Result Report\n\n'):].split('## Table of Contents')[:2]
+    header_trimmed = kurobako_report[len('# Benchmark Result Report\n\n'):]
+    metadata, detail = header_trimmed.split('## Table of Contents\n')[:2]
     body = f"""
 # Kurobako Benchmark
 
-{f'![plot curve image]({public_image_url})' if public_image_url else ''}
+![plot curve image]({public_image_url})
 
 {metadata}
 
@@ -38,7 +27,6 @@ def generate_report(kurobako_report, public_image_url):
 <summary>See details of benchmark results</summary>
 
 ## Table of Contents
-
 {detail}
 
 </details>
@@ -48,25 +36,18 @@ def generate_report(kurobako_report, public_image_url):
 
 def main():
     print(sys.argv)
-    json_path = sys.argv[1]
-    public_image_url = sys.argv[2] if len(sys.argv) > 2 else ''
+    markdown_report_path = sys.argv[1]
+    public_image_url = sys.argv[2]
 
     event = get_webhook_event()
     pull_number = event.get('number')
     print("Pull Request:", pull_number)
+
     repository = event.get('repository').get("full_name")
     print("Repository:", pull_number)
 
-    # Plot curve
-    subprocess.run([
-        "sh", "-c", f"cat {json_path} | {KUROBAKO} plot curve -o {OUTPUT_DIR}",
-    ], check=True)
-    print(f"::set-output name=image-path::{get_kurobako_image_path()}")
-
-    # Generate markdown report
-    kurobako_report = subprocess.check_output([
-        "sh", "-c", f"cat {json_path} | {KUROBAKO} report",
-    ], text=True)
+    with open(markdown_report_path, 'r') as f:
+        kurobako_report = "\n".join(f.readlines())
 
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
