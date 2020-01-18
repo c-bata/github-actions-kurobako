@@ -10,9 +10,10 @@ GitHub Action to report [kurobako](https://github.com/sile/kurobako) benchmark r
 
 ## Outputs
 
-### `time`
+### `image-path`
 
-The time we greeted you.
+A file path to the generated image of kurobako.
+You need to upload this on GCS.
 
 ## Example usage
 

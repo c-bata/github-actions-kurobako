@@ -6,8 +6,8 @@ inputs:
     required: true
     default: './kurobako.json'
 outputs:
-  time:
-    description: 'The time we greeted you'
+  image-path:
+    description: 'A file path to the generated image of kurobako. You need to upload this on GCS.'
 runs:
   using: 'docker'
   image: 'Dockerfile'

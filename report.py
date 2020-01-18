@@ -16,6 +16,15 @@ def get_webhook_event():
         return json.load(f)
 
 
+def get_kurobako_image_path():
+    # TODO(c-bata): specify output filename in the option at kurobako plot curve command.
+    # It seems kurobako accepts multiple studies, so it seems to need more discussions.
+    for filepath in os.listdir(OUTPUT_DIR):
+        if filepath.endswith('.png'):
+            return os.path.abspath(filepath)
+    raise Exception('kurobako image not found.')
+
+
 def main():
     json_path = sys.argv[1]
     event = get_webhook_event()
@@ -24,19 +33,21 @@ def main():
     repository = event.get('repository').get("full_name")
     print("Repository:", pull_number)
 
+    # Plot curve
+    subprocess.run([
+        "sh", "-c", f"cat {json_path} | {KUROBAKO} plot curve -o {OUTPUT_DIR}",
+    ], check=True)
+    print(f"::set-output name=image-path::{get_kurobako_image_path()}")
+
+    # Generate markdown report
     kurobako_report = subprocess.check_output([
         "sh", "-c", f"cat {json_path} | {KUROBAKO} report",
     ], text=True)
 
-    # TODO(c-bata): Upload to GCS, then add an img tag.
-    # subprocess.call([
-    #     "sh", "-c", f"cat {json_path} | {KUROBAKO} plot curve -o {OUTPUT_DIR}",
-    # ])
-
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
 
-    # Delete previous comments
+    # Comment to the pull request or edit if previous comment exists.
     for c in issue.get_comments():
         if c.user.login == 'github-actions[bot]':
             c.edit(kurobako_report)
