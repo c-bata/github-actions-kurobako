@@ -13,18 +13,18 @@ def get_webhook_event():
         return json.load(f)
 
 
-def generate_report(kurobako_report, public_image_url):
+def generate_report(kurobako_report, public_image_url, title):
     header_trimmed = kurobako_report[len('# Benchmark Result Report\n\n'):]
     metadata, detail = header_trimmed.split('## Table of Contents\n')[:2]
     body = f"""
-# Kurobako Benchmark
+# {title}
 
 ![plot curve image]({public_image_url})
 
 {metadata}
 
 <details>
-<summary>See details of benchmark results</summary>
+<summary>Please expand here for more  details.</summary>
 
 ## Table of Contents
 {detail}
@@ -38,6 +38,7 @@ def main():
     print(sys.argv)
     markdown_report_path = sys.argv[1]
     public_image_url = sys.argv[2]
+    title = sys.argv[3]
 
     event = get_webhook_event()
     pull_number = event.get('number')
@@ -51,13 +52,13 @@ def main():
 
     client = Github(ACCESS_TOKEN)
     issue = client.get_repo(repository).get_issue(pull_number)
-    body = generate_report(kurobako_report, public_image_url)
+    body = generate_report(kurobako_report, public_image_url, title)
 
     # Comment to the pull request or edit if previous comment exists.
     for c in issue.get_comments():
         if not c.user.login.startswith('github-actions'):
             continue
-        if not c.body.startswith('# Kurobako Benchmark'):
+        if not c.body.startswith(f'# {title}'):
             continue
 
         c.edit(body)

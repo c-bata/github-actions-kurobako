@@ -9,6 +9,10 @@ inputs:
     description: 'A public image url to kurobako plot image.'
     required: true
     default: 'https://storage.googleapis.com/kurobako-reports/dummy.png'
+  title:
+    description: 'A title text for the top of header'
+    required: false
+    default: 'Kurobako benchmark'
 outputs:
   image-path:
     description: 'A file path to the generated image of kurobako. You need to upload this on GCS.'
@@ -18,3 +22,4 @@ runs:
   args:
     - ${{ inputs.report-md-path }}
     - ${{ inputs.public-image-url }}
+    - ${{ inputs.title }}
