@@ -22,4 +22,5 @@ runs:
   args:
     - ${{ inputs.report-md-path }}
     - ${{ inputs.public-image-url }}
-    - ${{ inputs.title }}
+    - "${{ inputs.title }}"
+
