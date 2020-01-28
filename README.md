@@ -15,6 +15,10 @@ See [github-actions-kurobako/plot](./plot) action to generate a plot image.
 
 **Required**  A public image url to kurobako plot image.
 
+### `title`
+
+**Optional** A text for the title.
+
 ## Outputs
 
 There is no output values.
@@ -27,6 +31,7 @@ uses: c-bata/github-actions-kurobako@master
 with:
   report-md-path: './kurobako-report.md'
   public-image-url: 'https://example.com/public-image-url.png'
+  text: 'Benchmark of quadratic function'
 ```
 
 ## License

@@ -10,7 +10,7 @@ inputs:
     required: true
     default: 'https://storage.googleapis.com/kurobako-reports/dummy.png'
   title:
-    description: 'A title text for the top of header'
+    description: 'A text for the title'
     required: false
     default: 'Kurobako benchmark'
 outputs:
