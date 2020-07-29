@@ -1,5 +1,7 @@
 FROM alpine:3.11
 
+ARG KUROBAKO_VERSION=0.2.0
+
 RUN apk add --update gnuplot \
         fontconfig \
         ttf-ubuntu-font-family \
@@ -9,7 +11,7 @@ RUN apk add --update gnuplot \
     fc-cache -f && \
     rm -rf /var/cache/apk/*
 
-RUN curl -L https://github.com/sile/kurobako/releases/download/0.1.4/kurobako-0.1.4.linux-amd64 -o kurobako && \
+RUN curl -L https://github.com/sile/kurobako/releases/download/${KUROBAKO_VERSION}/kurobako-${KUROBAKO_VERSION}.linux-amd64 -o kurobako && \
     chmod +x ./kurobako && \
     ./kurobako -h
 
