@@ -2,7 +2,11 @@
 
 set -e
 
-cat $1 | ./kurobako plot curve -o ./output/
+if [ $2 != "false" ]; then
+  cat $1 | ./kurobako plot curve --errorbar -o ./output/
+else
+  cat $1 | ./kurobako plot curve -o ./output/
+fi
 
 imagepath=$(ls ./output/*.png | head -1)
 
