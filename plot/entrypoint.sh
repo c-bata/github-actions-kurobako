@@ -21,11 +21,11 @@ if [ $5 != "none" ]; then
 fi
 
 if [ $6 != "none" ]; then
-  args="$args --ymin $4"
+  args="$args --ymin $6"
 fi
 
 if [ $7 != "none" ]; then
-  args="$args --ymax $5"
+  args="$args --ymax $7"
 fi
 
 if [ $8 != "none" ]; then
