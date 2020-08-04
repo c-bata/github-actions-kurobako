@@ -9,6 +9,34 @@ inputs:
     description: 'Displays errorbar showing standard deviation of optimization curve'
     required: false
     default: 'false'
+  ylogscale:
+    description: 'Makes Y axis log scale'
+    required: false
+    default: 'false'
+  xmin:
+    description: 'Minimum value of X axis'
+    required: false
+    default: 'none'
+  xmax:
+    description: 'Maximum value of X axis'
+    required: false
+    default: 'none'
+  ymin:
+    description: 'Minimum value of Y axis'
+    required: false
+    default: 'none'
+  ymax:
+    description: 'Maximum value of Y axis'
+    required: false
+    default: 'none'
+  width:
+    description: 'Image width in pixels [default: 800]'
+    required: false
+    default: 'none'
+  height:
+    description: 'Image height in pixels [default: 600]'
+    required: false
+    default: 'none'
 outputs:
   image-path:
     description: 'A file path to the generated image of kurobako.'
@@ -18,4 +46,11 @@ runs:
   args:
     - ${{ inputs.report-json-path }}
     - ${{ inputs.error-bar }}
+    - ${{ inputs.ylogscale }}
+    - ${{ inputs.xmin }}
+    - ${{ inputs.xmax }}
+    - ${{ inputs.ymin }}
+    - ${{ inputs.ymax }}
+    - ${{ inputs.width }}
+    - ${{ inputs.height }}
 
