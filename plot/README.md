@@ -10,7 +10,35 @@ GitHub Action to plot a benchmark result of [kurobako](https://github.com/sile/k
 
 ### `errorbar`
 
-**Optional** Displays errorbar showing standard deviation of optimization curve.
+**Optional** Displays errorbar showing standard deviation of optimization curve (default: `false`).
+
+### `ylogscale`
+
+**Optional** Makes Y axis log scale (default: `false`).
+
+### `xmin`
+
+**Optional** Minimum value of X axis (default: `none`).
+
+### `xmax`
+
+**Optional** Maximum value of X axis (default: `none`).
+
+### `ymin`
+
+**Optional** Minimum value of Y axis (default: `none`).
+
+### `ymax`
+
+**Optional** Maximum value of Y axis (default: `none`).
+
+### `width`
+
+**Optional** Image width in pixels (default: 800).
+
+### `height`
+
+**Optional** Image height in pixels (default: 600).
 
 ## Outputs
 
